@@ -1,0 +1,14 @@
+
+*.swp
+
+*.out
+
+CMakeFiles/
+
+*.cmake
+
+shell/CMakeCache.txt
+
+shell/Makefile
+
+shell/util.h.gch
