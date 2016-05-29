@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 #include "util.h"
 
@@ -64,6 +65,7 @@ runcmd(struct cmd *cmd)
       exit(0);
     fprintf(stderr, "exec not implemented\n");
     // Your code here ...
+    execv(SearchPath(ecmd->argv[0]), ecmd->argv);
     break;
 
   case '>':
