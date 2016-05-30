@@ -1,89 +1,21 @@
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <string.h>
 #include <assert.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "util.h"
+#include "sh_lib.h"
 
 // Simplifed xv6 shell.
 
 #define MAXARGS 10
 
-// All commands have at least a type. Have looked at the type, the code
-// typically casts the *cmd to some specific cmd type.
-struct cmd {
-  int type;          //  ' ' (exec), | (pipe), '<' or '>' for redirection
-};
-
-struct execcmd {
-  int type;              // ' '
-  char *argv[MAXARGS];   // arguments to the command to be exec-ed
-};
-
-struct redircmd {
-  int type;          // < or > 
-  struct cmd *cmd;   // the command to be run (e.g., an execcmd)
-  char *file;        // the input/output file
-  int mode;          // the mode to open the file with
-  int fd;            // the file descriptor number to use for the file
-};
-
-struct pipecmd {
-  int type;          // |
-  struct cmd *left;  // left side of pipe
-  struct cmd *right; // right side of pipe
-};
-
 int fork1(void);  // Fork but exits on failure.
 struct cmd *parsecmd(char*);
-
-// Execute cmd.  Never returns.
-void
-runcmd(struct cmd *cmd)
-{
-  int p[2], r;
-  struct execcmd *ecmd;
-  struct pipecmd *pcmd;
-  struct redircmd *rcmd;
-
-  if(cmd == 0)
-    exit(0);
-  
-  switch(cmd->type){
-  default:
-    fprintf(stderr, "unknown runcmd\n");
-    exit(-1);
-
-  case ' ':
-    ecmd = (struct execcmd*)cmd;
-    if(ecmd->argv[0] == 0)
-      exit(0);
-    fprintf(stderr, "exec not implemented\n");
-    // Your code here ...
-    execv(SearchPath(ecmd->argv[0]), ecmd->argv);
-    break;
-
-  case '>':
-  case '<':
-    rcmd = (struct redircmd*)cmd;
-    fprintf(stderr, "redir not implemented\n");
-    // Your code here ...
-    runcmd(rcmd->cmd);
-    break;
-
-  case '|':
-    pcmd = (struct pipecmd*)cmd;
-    fprintf(stderr, "pipe not implemented\n");
-    // Your code here ...
-    break;
-  }    
-  exit(0);
-}
 
 int
 getcmd(char *buf, int nbuf)
@@ -115,7 +47,7 @@ main(void)
       continue;
     }
     if(fork1() == 0)
-      runcmd(parsecmd(buf));
+      RunCmd(parsecmd(buf));
     wait(&r);
   }
   exit(0);
@@ -245,7 +177,6 @@ char
 struct cmd*
 parsecmd(char *s)
 {
-  PrintFuncName(__func__);
   char *es;
   struct cmd *cmd;
 
