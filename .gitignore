@@ -1,14 +1,22 @@
 
 *.swp
 
+*.o
+
 *.out
+
+CMakeCache.txt
 
 CMakeFiles/
 
 *.cmake
 
-shell/CMakeCache.txt
+Makefile
 
-shell/Makefile
+tags
 
-shell/util.h.gch
+compile_commands.json
+
+*.pyc
+
+build/
