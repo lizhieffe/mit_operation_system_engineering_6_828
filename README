@@ -1,0 +1,20 @@
+Debug the kernel:
+1.Compile the kernel source
+  Go to kernel_source folder;
+  Run "make";
+  One should see "mk obj/kern/kernel.img". This means the compilation succeeded. 
+2.Run kernel image
+  Stay in kernel_source folder;
+  Run "make qemu-nox-gdb";
+3.Debug kernel
+  Open a new window and stay in kernel_source folder;
+  Run "gdb"
+  One should see "Remote debugging using localhost:26000
+                  0x0000fff0 in ?? ()"
+4.The file .gdbinit is the config for computer archetectur and auto-reload. It
+  should be placed under /home/lizhi/
+
+Tips for QEMU:
+1.Quit: ctrl+a x
+
+
