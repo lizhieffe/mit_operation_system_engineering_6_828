@@ -1,0 +1,3 @@
+cmd type is: P
+case ' '
+"abcdefg"
