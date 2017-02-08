@@ -6,6 +6,8 @@
 
 Defined in kern/entry.S
 
+The makefile in the kern/ folder defines the compile/link rule for it.
+
 ### Kernel VMA/LMA
 
 Use objdump -h obj/kern/kernal, it shows the .text section has different VMA and
