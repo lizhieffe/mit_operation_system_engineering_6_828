@@ -4,7 +4,7 @@
 
 ### Entry point
 
-Defined in kern/entry.S
+Defined in kern/entry.S. Its LMA can be viewed by `objdump -f obj/kern/kernel`, VMA can be viewed by `nm obj/kern/kernel | grep entry`.
 
 The makefile in the kern/ folder defines the compile/link rule for it.
 
