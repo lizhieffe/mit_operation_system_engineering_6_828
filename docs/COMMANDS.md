@@ -1,15 +1,19 @@
 # Frequestly Used Commands
 
-## **Qemu**
-
-- Run kernel
+## **Run Kernel**
 ```bash
   cd lab
   make qemu-nox
 ```
 
-- Debug kernel
+## **Debug Kernel**
+First, run
 ```bash
   cd lab
   make qemu-nox-gdb
+```
+Then open a new terminal, and run
+```bash
+  cd lab
+  gdb
 ```

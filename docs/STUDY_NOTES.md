@@ -1,30 +1,30 @@
 # Study Notes for MIT 6.828
 
-## *Boot Loader*
+## **Boot Loader**
 
-### *Protection Mode*
+### **Protection Mode**
 
 Once entering the protected mode, all memory references are interpreted as
 virtual address and translated by the MMU, which means all pointers in C are
 virtual address. And one can only dereference virtual address.
 
-## *Kernel*
+## **Kernel**
 
-### *Entry Point*
+### **Entry Point**
 
 Defined in kern/entry.S. Its LMA can be viewed by `objdump -f obj/kern/kernel`,
 VMA can be viewed by `nm obj/kern/kernel | grep entry`.
 
 The makefile in the kern/ folder defines the compile/link rule for it.
 
-### *Kernel VMA/LMA*
+### **Kernel VMA/LMA**
 
 Use objdump -h obj/kern/kernal, it shows the .text section has different VMA and
 LMA address.
 
 The VMA and LMA addresses are defined in the linker script: kern/kernal.ld
 
-### *Page Translation*
+### **Page Translation**
 
 - 80386 transform a linear address into a physical address using page
   translation.
@@ -46,3 +46,27 @@ The VMA and LMA addresses are defined in the linker script: kern/kernal.ld
   is **Present** bit, representing whether the page can be used.
 
 Reference: [Intel 80386 Reference Programmer's Manual](https://pdos.csail.mit.edu/6.828/2016/readings/i386/s05_02.htm)
+
+### **Address Space**
+
+JOS devices the processor's linear address space into two parts.
+- User environments (processes): has permission to memory below *UTOP*, has no
+  permission to memory above *ULIM*.
+- Kernel environments: has R/W permission to memory above *ULIM* and below
+  *UTOP*.
+- Common: For the address range *[UTOP,ULIM)*, both the kernel and the user
+  environment have the same permission: they can read but not write this address
+  range. This range of address is used to expose certain kernel data structures
+  read-only to the user environment.
+
+- Some important addresses:
+| Address | Type |
+|---------|------|
+| ------- kernel memory top | KERNBASE/KSTACKTOP 0xf0000000 4294MB () |
+| ------- user memory top | ULIM 0xef800000 4018MB |
+| Cur. Page Table (User R-) |
+| ------- | UVPT 0xef400000 4013MB |
+| ------- user stack top | UTOP/USTACKTOP 0xeec00000 4005MB |
+| ------- memory base | 0x00000000 0MB |
+
+Reference: ```inc/memlayout.h``` 
