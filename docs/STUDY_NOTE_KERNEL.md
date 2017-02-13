@@ -1,21 +1,6 @@
 # Study Notes for MIT 6.828
 
-## **Boot Loader**
-
-### **Protection Mode**
-
-Once entering the protected mode, all memory references are interpreted as
-virtual address and translated by the MMU, which means all pointers in C are
-virtual address. And one can only dereference virtual address.
-
-## **Kernel**
-
-### **Entry Point**
-
-Defined in kern/entry.S. Its LMA can be viewed by `objdump -f obj/kern/kernel`,
-VMA can be viewed by `nm obj/kern/kernel | grep entry`.
-
-The makefile in the kern/ folder defines the compile/link rule for it.
+## Kernel
 
 ### **Kernel VMA/LMA**
 
@@ -58,15 +43,15 @@ JOS devices the processor's linear address space into two parts.
   environment have the same permission: they can read but not write this address
   range. This range of address is used to expose certain kernel data structures
   read-only to the user environment.
-
 - Some important addresses:
+
 | Address | Type |
 |---------|------|
-| ------- kernel memory top | KERNBASE/KSTACKTOP 0xf0000000 4294MB () |
-| ------- user memory top | ULIM 0xef800000 4018MB |
-| Cur. Page Table (User R-) |
-| ------- | UVPT 0xef400000 4013MB |
-| ------- user stack top | UTOP/USTACKTOP 0xeec00000 4005MB |
-| ------- memory base | 0x00000000 0MB |
+| ---kernel memory top--- | KERNBASE/KSTACKTOP 0xf0000000 4294MB |
+| ---user memory top--- | ULIM 0xef800000 4018MB |
+| *Cur. Page Table (User R-)* | |
+| ---page table base--- | UVPT 0xef400000 4013MB |
+| ---user stack top--- | UTOP/USTACKTOP 0xeec00000 4005MB |
+| ---memory base--- | 0x00000000 0MB |
 
 Reference: ```inc/memlayout.h``` 
