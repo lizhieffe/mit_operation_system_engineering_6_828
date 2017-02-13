@@ -1,19 +1,18 @@
-# Study Notes for MIT 6.828
+# Kernel
 
-## Kernel
-
-### **Kernel VMA/LMA**
+## Kernel VMA/LMA
 
 Use objdump -h obj/kern/kernal, it shows the .text section has different VMA and
 LMA address.
 
 The VMA and LMA addresses are defined in the linker script: kern/kernal.ld
 
-### **Page Translation**
+## Page Translation
 
 - 80386 transform a linear address into a physical address using page
   translation.
-- A **Page Prame** is a 4K-byte unit of contiguous address of **physical** memory.
+- A **Page Frame** is a 4K-byte unit of contiguous address of **physical**
+  memory.
 - Linear address:
 
 | Range | Field |
@@ -29,10 +28,12 @@ The VMA and LMA addresses are defined in the linker script: kern/kernal.ld
   Because pages are located on 4K boundary, the low-order 12 bits are always
   zero. The 12 bits are used to store the page's metadata. E.g., the lowest bit
   is **Present** bit, representing whether the page can be used.
+- The page dir is initiated in ```mem_init()```, then the PageInfo array is
+  initiated.
 
 Reference: [Intel 80386 Reference Programmer's Manual](https://pdos.csail.mit.edu/6.828/2016/readings/i386/s05_02.htm)
 
-### **Address Space**
+## Address Space
 
 JOS devices the processor's linear address space into two parts.
 - User environments (processes): has permission to memory below *UTOP*, has no
