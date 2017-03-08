@@ -7,6 +7,14 @@ LMA address.
 
 The VMA and LMA addresses are defined in the linker script: kern/kernal.ld
 
+## Page Table
+
+- Each process has its own page table.
+
+- In a single process, the kernel and user memory share the same page table.
+  This makes it convinient when switching from user code to kernel code during
+  system calls and interrupts: such switches do not require page table switches.
+
 ## Page Translation
 
 - 80386 transform a linear address into a physical address using page
